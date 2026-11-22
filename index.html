@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Navsuite - one explorer for files, networks, phones and drives. A Toggle Minds family hobby, open source (Apache-2.0).">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Navsuite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Layout: a quiet systems-tool page — one reading column, channel/path details shown as real UI fragments. */
+  :root {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --panel-2: #eceff3;
+    --line: #d8dde4;
+    --ink: #161a1f;
+    --muted: #5c6672;
+    --accent: #1f6feb;     /* link blue — the discovery/LAN hue */
+    --accent-2: #0f9d8f;   /* teal — the "reachable" accent */
+    --warn: #b7791f;
+    --good: #2e8b57;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1216; --panel: #171b21; --panel-2: #1e242c; --line: #2b323c; --ink: #e9edf2;
+      --muted: #9aa4b2; --accent: #5b9bff; --accent-2: #3bc4b4; --warn: #e0a84a; --good: #58c08a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1216; --panel: #171b21; --panel-2: #1e242c; --line: #2b323c; --ink: #e9edf2;
+    --muted: #9aa4b2; --accent: #5b9bff; --accent-2: #3bc4b4; --warn: #e0a84a; --good: #58c08a;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.55; }
+  .wrap { max-width: 920px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.1; margin: 0; }
+  a { color: var(--accent); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-2); }
+
+  /* Hero */
+  header.hero { padding-block: clamp(40px, 9vw, 92px) 36px; }
+  .hero h1 { font-size: clamp(38px, 8vw, 72px); font-weight: 700; margin-top: 14px; letter-spacing: -0.02em; }
+  .hero .lead { font-size: clamp(17px, 2.4vw, 21px); color: var(--muted); max-width: 40ch; margin-top: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .chip { font-family: var(--mono); font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--muted); }
+  .chip.on { border-color: color-mix(in srgb, var(--accent-2) 55%, var(--line)); color: var(--ink); }
+
+  /* Address strip — a real detail from the app */
+  .addr { margin-top: 30px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); overflow: hidden; }
+  .addr .row { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 13px; min-width: 0; }
+  .addr .row:last-child { border-bottom: 0; }
+  .addr .tag { color: var(--accent-2); flex: none; width: 92px; }
+  .addr .val { color: var(--ink); overflow-x: auto; white-space: nowrap; min-width: 0; }
+
+  section { padding-block: clamp(30px, 6vw, 56px); border-top: 1px solid var(--line); }
+  .kicker { color: var(--muted); max-width: 62ch; margin-top: 12px; }
+  h2 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 26px; }
+  .card { border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: var(--panel); display: flex; flex-direction: column; gap: 8px; }
+  .card .name { font-family: var(--display); font-weight: 700; font-size: 20px; }
+  .card .role { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent-2); }
+  .card p { margin: 0; color: var(--muted); font-size: 14px; }
+  .card .new { margin-top: 6px; font-size: 13px; color: var(--ink); }
+  .card .new b { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 2px; }
+  .card.master { grid-column: 1 / -1; border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: color-mix(in srgb, var(--accent) 7%, var(--panel)); }
+
+  .feat { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 26px; margin-top: 24px; }
+  .feat div { min-width: 0; }
+  .feat h3 { font-size: 16px; font-family: var(--body); font-weight: 600; }
+  .feat p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+  .road { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-top: 24px; }
+  .lane { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--panel); }
+  .lane h3 { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2); }
+  .lane.mvp h3 { color: var(--good); }
+  .lane ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .lane li { margin: 5px 0; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .pill { font-size: 13px; padding: 5px 12px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); }
+
+  /* Leads — what we studied */
+  .leads { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
+  .leads div { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--panel); }
+  .leads h3 { font-family: var(--body); font-weight: 600; font-size: 15px; }
+  .leads p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; }
+  .leads .src { font-family: var(--mono); font-size: 12px; color: var(--ink); margin-top: 8px; display: block; }
+
+  /* Open-source credits */
+  .creds { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 26px; margin-top: 22px; }
+  .creds .grp { min-width: 0; }
+  .creds .grp h3 { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 8px; }
+  .creds dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 13.5px; }
+  .creds dt { font-family: var(--mono); color: var(--ink); }
+  .creds dd { margin: 0; color: var(--muted); }
+
+  .note { border: 1px solid var(--line); border-left: 3px solid var(--accent-2); border-radius: 10px; padding: 16px 18px; background: var(--panel); margin-top: 20px; }
+  .note strong { font-family: var(--display); }
+
+  /* Contact */
+  .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--panel); }
+  .contact .addr-txt { font-family: var(--mono); font-size: clamp(15px, 3vw, 19px); color: var(--ink); -webkit-user-select: all; user-select: all; word-break: break-all; }
+  .btn { font-family: var(--body); font-size: 14px; border: 1px solid var(--accent); background: var(--accent); color: #fff; padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  footer { padding-block: 40px 64px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  code { font-family: var(--mono); font-size: .9em; background: var(--panel-2); padding: 1px 5px; border-radius: 5px; }
+  @media (prefers-reduced-motion: no-preference) { a, .card, .btn { transition: border-color .15s ease, background .15s ease; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">A Toggle Minds family hobby · built in the open</div>
+    <h1>Navsuite</h1>
+    <p class="lead">One explorer for your files, your network, your phones and your drives — the same on Windows, macOS and Linux.</p>
+    <div class="chips">
+      <span class="chip on">One record per system</span>
+      <span class="chip on">A section per channel</span>
+      <span class="chip">Verified copies</span>
+      <span class="chip">Open source · Apache-2.0</span>
+    </div>
+
+    <div class="addr" aria-label="The address bar understands every kind of location">
+      <div class="row"><span class="tag">local</span><span class="val">C:\Users\you\Projects</span></div>
+      <div class="row"><span class="tag">smb</span><span class="val">smb://nas.local/media</span></div>
+      <div class="row"><span class="tag">sftp</span><span class="val">sftp://pi@raspberrypi/home/pi</span></div>
+      <div class="row"><span class="tag">system</span><span class="val">JaiHAT26TOPS — reachable via LAN · Tailscale · Bonjour · SSH</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">What it is</div>
+    <h2>Your whole network and every disk, in one window</h2>
+    <p class="kicker">The built-in "network neighbourhood" has quietly broken down — SMB1 is gone, each operating system uses a different discovery method, and mesh VPNs like Tailscale don't carry Bonjour. Navsuite joins the pieces back together: it finds a system through every channel it can, shows it as one record, and lets you open it with whichever protocol fits — browse its shares, open SSH, print to it, or play a file off it. Drives from another operating system open safely, read-only.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Four pieces, one app</div>
+    <h2>The products, and what's new about each</h2>
+    <p class="kicker">Each piece stands on its own and shares one Rust core; together they do what none can alone.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="role">Network</span><span class="name">NetNav</span>
+        <p>Every system on your home network and tailnet as one record, in a section per channel, with every way in one click away.</p>
+        <div class="new"><b>Novelty</b>Scanners stop at IP, MAC and open ports, and each OS's network view uses one half-blind protocol. NetNav merges every channel into one record and makes each one usable, not just listed.</div>
+      </div>
+      <div class="card">
+        <span class="role">Files</span><span class="name">FileNav</span>
+        <p>Local disks, SMB, SFTP and FTP in one view that never freezes on an offline share.</p>
+        <div class="new"><b>Novelty</b>The strong file managers are tied to one OS, and checking a copy is exact means hunting a setting or a second tool. FileNav treats every location alike and makes a verified, resumable copy the normal case.</div>
+      </div>
+      <div class="card">
+        <span class="role">Phones</span><span class="name">Drop</span>
+        <p>AirDrop-style passing between any phones and computers, joined by a QR code. No app on the phone.</p>
+        <div class="new"><b>Novelty</b>AirDrop–Quick Share only works on supported hardware, and app-based tools need installing on every device. Drop runs on your own computer with no internet, holds a file for a phone that isn't open yet, and checks it with SHA-256.</div>
+      </div>
+      <div class="card">
+        <span class="role">Watch</span><span class="name">Guard</span>
+        <p>What joined your network, what's about to drop off the tailnet, and which server needs attention.</p>
+        <div class="new"><b>Novelty</b>Tailscale manages the tailnet but not what each peer offers; Pi-hole names clients by IP. Guard joins them on one record per device, so an alert leads straight to what the device is and shares.</div>
+      </div>
+      <div class="card master">
+        <span class="role">All of it</span><span class="name">Navsuite</span>
+        <p>One window, one tree, one transfer queue, one terminal.</p>
+        <div class="new"><b>Novelty</b>A system hidden from one channel is still found and used through another — a Pi missing from NetBIOS shows under Bonjour and SSH; the NAS Bonjour can't see across the tailnet shows under Tailscale. Your copies can share the map between your machines, never the passwords.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">In the first build</div>
+    <h2>Working today</h2>
+    <div class="feat">
+      <div><h3>One record per system</h3><p>Merged across ARP, a port sweep, Bonjour/Avahi, NetBIOS, SSDP and Tailscale — with your own labels.</p></div>
+      <div><h3>Verified, resumable copies</h3><p>A copy preview, one queue with pause and resume, and a SHA-256 check on every file.</p></div>
+      <div><h3>Drives &amp; dual boot</h3><p>Every partition listed; the other operating system opens read-only, always. Mount and safe eject, and a built-in ext4 reader.</p></div>
+      <div><h3>Play media and music</h3><p>Video and music play in the window and seek from anywhere, with tags and cover art.</p></div>
+      <div><h3>Phone drop page</h3><p>Scan a QR code and send files phone-to-phone through a computer — nothing to install.</p></div>
+      <div><h3>Terminal &amp; probes</h3><p>A built-in terminal in the shell you choose, plus ping, traceroute, port, DNS and HTTP checks with no admin rights.</p></div>
+    </div>
+    <div class="pills" aria-label="Platforms">
+      <span class="pill">Windows</span><span class="pill">macOS</span><span class="pill">Linux</span><span class="pill">Raspberry Pi</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">The wishlist · in the open</div>
+    <h2>Where we're heading</h2>
+    <p class="kicker">The direction we're proposing, past the first build. Tell us which of these matter most to you — the wishlist is public on purpose.</p>
+    <div class="road">
+      <div class="lane mvp"><h3>Now · early MVP</h3><ul><li>Network, files &amp; drives</li><li>Verified transfers</li><li>Phone drop</li><li>Media playback</li><li>Terminal &amp; probes</li></ul></div>
+      <div class="lane"><h3>Next</h3><ul><li>Search &amp; batch rename</li><li>Printers, cloud &amp; NAS</li><li>Device history &amp; names</li><li>New-device alerts</li><li>Tailnet key-expiry warnings</li><li>Dual-pane &amp; tabs</li></ul></div>
+      <div class="lane"><h3>Later</h3><ul><li>App-to-app map sharing</li><li>Pi-hole link &amp; server health</li><li>Screen sharing, self-hosted</li><li>Casting to a TV</li><li>Read-only NTFS &amp; HFS+ everywhere</li><li>IPv6 throughout</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Where our leads come from</div>
+    <h2>The tools we studied</h2>
+    <p class="kicker">We took the best idea from each of these and asked what a single, cross-platform, open tool would do instead. None of their code is used; they're the direction-setters.</p>
+    <div class="leads">
+      <div><h3>Network scanners</h3><p>Fast sweeps and device recognition — but shallow on services, single-subnet, and often one-OS or cloud-tied.</p><span class="src">Advanced IP Scanner · Angry IP Scanner · Fing · nmap</span></div>
+      <div><h3>File managers</h3><p>Powerful dual-pane and scripting — but each tied to one operating system, weak on SFTP and offline shares.</p><span class="src">Directory Opus · Total Commander · Explorer · Finder · GNOME Files</span></div>
+      <div><h3>Local file sharing</h3><p>Great peer-to-peer sharing — but needs an app on every device, or both browsers open at once.</p><span class="src">LocalSend · PairDrop · AirDrop · Quick Share</span></div>
+      <div><h3>Mesh VPN &amp; DNS</h3><p>The connectivity and the filtering we build on — but neither shows what a device is or shares.</p><span class="src">Tailscale · Pi-hole</span></div>
+      <div><h3>Remote screens</h3><p>Browser-based remote access done right underneath — the open path to the same result on every system.</p><span class="src">Raspberry Pi Connect (approach) · RustDesk (engine)</span></div>
+      <div><h3>Media players</h3><p>Streaming and seeking from anywhere, inside the file browser rather than a separate app.</p><span class="src">VLC · Plex</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Standing on their shoulders</div>
+    <h2>Open source we build on</h2>
+    <p class="kicker">Navsuite is written in Rust and leans on these projects, re-engineering our own parts where they fall short. Thank you to everyone who maintains them.</p>
+    <div class="creds">
+      <div class="grp"><h3>Framework</h3><dl>
+        <dt>Tauri</dt><dd>native desktop shell</dd>
+        <dt>Tokio</dt><dd>async runtime</dd>
+        <dt>Serde</dt><dd>data in and out</dd>
+        <dt>xterm.js</dt><dd>the terminal view</dd>
+      </dl></div>
+      <div class="grp"><h3>Network &amp; discovery</h3><dl>
+        <dt>mdns-sd</dt><dd>Bonjour / Avahi</dd>
+        <dt>netdev · if-addrs</dt><dd>interfaces &amp; addresses</dd>
+        <dt>dns-lookup</dt><dd>name resolution</dd>
+        <dt>socket2</dt><dd>ping &amp; traceroute</dd>
+        <dt>reqwest · rustls</dt><dd>HTTP checks &amp; TLS</dd>
+      </dl></div>
+      <div class="grp"><h3>Files &amp; transfer</h3><dl>
+        <dt>russh · russh-sftp</dt><dd>SSH &amp; SFTP</dd>
+        <dt>keyring</dt><dd>OS keychains</dd>
+        <dt>trash</dt><dd>system trash</dd>
+        <dt>sha2</dt><dd>copy verification</dd>
+        <dt>windows-sys · libc</dt><dd>native OS calls</dd>
+      </dl></div>
+      <div class="grp"><h3>Drives &amp; media</h3><dl>
+        <dt>ext4-view · ntfs</dt><dd>read-only disk readers</dd>
+        <dt>zbus</dt><dd>UDisks2 on Linux</dd>
+        <dt>lofty</dt><dd>music tags &amp; art</dd>
+        <dt>axum</dt><dd>drop &amp; media server</dd>
+        <dt>qrcode · portable-pty</dt><dd>QR codes &amp; the terminal</dd>
+      </dl></div>
+    </div>
+    <p class="kicker" style="margin-top:18px">Where a mesh VPN or DNS filter is in the picture we work with <a href="https://tailscale.com" target="_blank" rel="noopener">Tailscale</a> and <a href="https://pi-hole.net" target="_blank" rel="noopener">Pi-hole</a>, and screen sharing is planned on the self-hostable, Rust-based <a href="https://github.com/rustdesk/rustdesk-server" target="_blank" rel="noopener">RustDesk</a>.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">How it's built</div>
+    <h2>Native, and honest about safety</h2>
+    <div class="note"><strong>Read-only where it matters.</strong> Navsuite never writes to another operating system's partitions or to a raw device — they open read-only. It does <em>not</em> disable, evade or work around antivirus software; that's how malware behaves. Sign-ins stay in your operating system's keychain and never leave the machine.</div>
+    <div class="note"><strong>One Rust codebase.</strong> Built with Rust and <a href="https://tauri.app" target="_blank" rel="noopener">Tauri</a> — small native apps on every desktop, no browser runtime bundled.</div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Contact us</div>
+    <h2>Tell us what you'd want</h2>
+    <p class="kicker">Which wishlist items matter to you, a device that won't show up, a protocol we've missed — we'd like to hear it. Write to us:</p>
+    <div class="contact">
+      <span class="addr-txt" id="email">Shankar@Shankars.Org</span>
+      <button class="btn" id="copy" type="button">Copy address</button>
+      <a class="btn ghost" href="mailto:Shankar@Shankars.Org?subject=Navsuite%20wishlist" id="mail">Open mail app</a>
+      <a class="btn ghost" href="https://github.com/ShankarOnline/navsuite" target="_blank" rel="noopener">Source on GitHub</a>
+    </div>
+    <p class="kicker" style="font-size:13px;margin-top:10px">If the mail button does nothing on your device, copy the address above and write to us from your usual mail.</p>
+  </section>
+
+  <footer class="wrap">
+    <div class="tags">
+      <span class="chip">Apache-2.0</span><span class="chip">Early development</span><span class="chip">Built in the open</span>
+    </div>
+    <p>Navsuite is a family hobby project by Toggle Minds. It's early and open — the source lives at <a href="https://github.com/ShankarOnline/navsuite" target="_blank" rel="noopener">github.com/ShankarOnline/navsuite</a>. This page is a look at what to expect, not a finished product.</p>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('copy');
+    var email = document.getElementById('email').textContent.trim();
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy address'; }, 1800); }
+      try {
+        navigator.clipboard.writeText(email).then(done, select);
+      } catch (e) { select(); }
+      function select() {
+        var r = document.createRange();
+        r.selectNodeContents(document.getElementById('email'));
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Select & copy';
+        setTimeout(function () { btn.textContent = 'Copy address'; }, 2200);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
