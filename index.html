@@ -117,8 +117,15 @@
   footer { padding-block: 40px 64px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   footer .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
   code { font-family: var(--mono); font-size: .9em; background: var(--panel-2); padding: 1px 5px; border-radius: 5px; }
-  @media (prefers-reduced-motion: no-preference) { a, .card, .btn { transition: border-color .15s ease, background .15s ease; } }
-</style>
+  @media (prefers-reduced-motion: no-preference) { a, .card, .btn { transition: border-color .15s ease, background .15s ease; } }"
+".  .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-top: 24px; }
+  .dl-os { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--panel); display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+  .dl-os h3 { font-size: 17px; }
+  .dl-os .sub { font-size: 12px; font-weight: 400; color: var(--muted); }
+  .dl-btn { display: block; text-align: center; padding: 9px 12px; border-radius: 9px; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; font-size: 14px; }
+  .dl-btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); font-weight: 500; }
+  .dl-btn:hover { filter: brightness(1.08); }
+."</style>"
 </head>
 <body>
 
@@ -143,8 +150,38 @@
     </div>
   </header>
 
-  <section>
-    <div class="eyebrow">What it is</div>
+  <section id="download">
+    <div class="eyebrow">Download · v0.1.0</div>
+    <h2>Get Narada</h2>
+    <p class="kicker">Free and open source, for Windows, macOS, Linux and Raspberry Pi. These first builds aren't code-signed yet, so you'll click past an "unknown developer" warning (Windows: <b>More info &rarr; Run anyway</b>; macOS: right-click the app &rarr; <b>Open</b>).</p>
+    <div class="dl-grid">
+      <div class="dl-os">
+        <h3>Windows</h3>
+        <a class="dl-btn" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_x64-setup.exe">Installer (.exe)</a>
+        <a class="dl-btn ghost" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_x64_en-US.msi">.msi package</a>
+      </div>
+      <div class="dl-os">
+        <h3>macOS <span class="sub">Intel &amp; Apple&nbsp;Silicon</span></h3>
+        <a class="dl-btn" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_universal.dmg">Disk image (.dmg)</a>
+      </div>
+      <div class="dl-os">
+        <h3>Linux <span class="sub">x86-64</span></h3>
+        <a class="dl-btn" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_amd64.AppImage">.AppImage</a>
+        <a class="dl-btn ghost" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_amd64.deb">.deb</a>
+        <a class="dl-btn ghost" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada-0.1.0-1.x86_64.rpm">.rpm</a>
+      </div>
+      <div class="dl-os">
+        <h3>Raspberry Pi <span class="sub">64-bit · ARM64</span></h3>
+        <a class="dl-btn" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_aarch64.AppImage">.AppImage</a>
+        <a class="dl-btn ghost" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada_0.1.0_arm64.deb">.deb</a>
+        <a class="dl-btn ghost" href="https://github.com/ShankarOnline/navsuite/releases/download/v0.1.0/Narada-0.1.0-1.aarch64.rpm">.rpm</a>
+      </div>
+    </div>
+    <p class="kicker" style="font-size:13px;margin-top:14px">Every build and the checksums are on the <a href="https://github.com/ShankarOnline/navsuite/releases/latest" target="_blank" rel="noopener">releases page</a>.</p>
+  </section>
+
+."  <section>
+    <div class="eyebrow">What it is</div>"
     <h2>Your whole network and every disk, in one window</h2>
     <p class="kicker">The built-in "network neighbourhood" has quietly broken down — SMB1 is gone, each operating system uses a different discovery method, and mesh VPNs like Tailscale don't carry Bonjour. Narada joins the pieces back together: it finds a system through every channel it can, shows it as one record, and lets you open it with whichever protocol fits — browse its shares, open SSH, print to it, or play a file off it. Drives from another operating system open safely, read-only.</p>
   </section>
