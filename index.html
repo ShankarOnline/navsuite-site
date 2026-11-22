@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Navsuite - one explorer for files, networks, phones and drives. A Toggle Minds family hobby, open source (Apache-2.0).">
+<meta name="description" content="Narada - one explorer for files, networks, phones and drives. A Toggle Minds family hobby, open source (Apache-2.0).">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Navsuite</title>
+<title>Narada</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -125,7 +125,8 @@
 <div class="wrap">
   <header class="hero">
     <div class="eyebrow">A Toggle Minds family hobby · built in the open</div>
-    <h1>Navsuite</h1>
+    <h1>Narada</h1>
+    <p class="eyebrow" style="margin-top:10px">Named for Narada, the sage who travels between every world, carrying news.</p>
     <p class="lead">One explorer for your files, your network, your phones and your drives — the same on Windows, macOS and Linux.</p>
     <div class="chips">
       <span class="chip on">One record per system</span>
@@ -145,7 +146,7 @@
   <section>
     <div class="eyebrow">What it is</div>
     <h2>Your whole network and every disk, in one window</h2>
-    <p class="kicker">The built-in "network neighbourhood" has quietly broken down — SMB1 is gone, each operating system uses a different discovery method, and mesh VPNs like Tailscale don't carry Bonjour. Navsuite joins the pieces back together: it finds a system through every channel it can, shows it as one record, and lets you open it with whichever protocol fits — browse its shares, open SSH, print to it, or play a file off it. Drives from another operating system open safely, read-only.</p>
+    <p class="kicker">The built-in "network neighbourhood" has quietly broken down — SMB1 is gone, each operating system uses a different discovery method, and mesh VPNs like Tailscale don't carry Bonjour. Narada joins the pieces back together: it finds a system through every channel it can, shows it as one record, and lets you open it with whichever protocol fits — browse its shares, open SSH, print to it, or play a file off it. Drives from another operating system open safely, read-only.</p>
   </section>
 
   <section>
@@ -174,7 +175,7 @@
         <div class="new"><b>Novelty</b>Tailscale manages the tailnet but not what each peer offers; Pi-hole names clients by IP. Guard joins them on one record per device, so an alert leads straight to what the device is and shares.</div>
       </div>
       <div class="card master">
-        <span class="role">All of it</span><span class="name">Navsuite</span>
+        <span class="role">All of it</span><span class="name">Narada</span>
         <p>One window, one tree, one transfer queue, one terminal.</p>
         <div class="new"><b>Novelty</b>A system hidden from one channel is still found and used through another — a Pi missing from NetBIOS shows under Bonjour and SSH; the NAS Bonjour can't see across the tailnet shows under Tailscale. Your copies can share the map between your machines, never the passwords.</div>
       </div>
@@ -225,7 +226,7 @@
   <section>
     <div class="eyebrow">Standing on their shoulders</div>
     <h2>Open source we build on</h2>
-    <p class="kicker">Navsuite is written in Rust and leans on these projects, re-engineering our own parts where they fall short. Thank you to everyone who maintains them.</p>
+    <p class="kicker">Narada is written in Rust and leans on these projects, re-engineering our own parts where they fall short. Thank you to everyone who maintains them.</p>
     <div class="creds">
       <div class="grp"><h3>Framework</h3><dl>
         <dt>Tauri</dt><dd>native desktop shell</dd>
@@ -261,7 +262,7 @@
   <section>
     <div class="eyebrow">How it's built</div>
     <h2>Native, and honest about safety</h2>
-    <div class="note"><strong>Read-only where it matters.</strong> Navsuite never writes to another operating system's partitions or to a raw device — they open read-only. It does <em>not</em> disable, evade or work around antivirus software; that's how malware behaves. Sign-ins stay in your operating system's keychain and never leave the machine.</div>
+    <div class="note"><strong>Read-only where it matters.</strong> Narada never writes to another operating system's partitions or to a raw device — they open read-only. It does <em>not</em> disable, evade or work around antivirus software; that's how malware behaves. Sign-ins stay in your operating system's keychain and never leave the machine.</div>
     <div class="note"><strong>One Rust codebase.</strong> Built with Rust and <a href="https://tauri.app" target="_blank" rel="noopener">Tauri</a> — small native apps on every desktop, no browser runtime bundled.</div>
   </section>
 
@@ -272,7 +273,7 @@
     <div class="contact">
       <span class="addr-txt" id="email">Shankar@Shankars.Org</span>
       <button class="btn" id="copy" type="button">Copy address</button>
-      <a class="btn ghost" href="mailto:Shankar@Shankars.Org?subject=Navsuite%20wishlist" id="mail">Open mail app</a>
+      <a class="btn ghost" href="mailto:Shankar@Shankars.Org?subject=Narada%20wishlist" id="mail">Open mail app</a>
       <a class="btn ghost" href="https://github.com/ShankarOnline/navsuite" target="_blank" rel="noopener">Source on GitHub</a>
     </div>
     <p class="kicker" style="font-size:13px;margin-top:10px">If the mail button does nothing on your device, copy the address above and write to us from your usual mail.</p>
@@ -282,7 +283,7 @@
     <div class="tags">
       <span class="chip">Apache-2.0</span><span class="chip">Early development</span><span class="chip">Built in the open</span>
     </div>
-    <p>Navsuite is a family hobby project by Toggle Minds. It's early and open — the source lives at <a href="https://github.com/ShankarOnline/navsuite" target="_blank" rel="noopener">github.com/ShankarOnline/navsuite</a>. This page is a look at what to expect, not a finished product.</p>
+    <p>Narada is a family hobby project by Toggle Minds. It's early and open — the source lives at <a href="https://github.com/ShankarOnline/navsuite" target="_blank" rel="noopener">github.com/ShankarOnline/navsuite</a>. This page is a look at what to expect, not a finished product.</p>
   </footer>
 </div>
 
